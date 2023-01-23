@@ -17,6 +17,8 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
+// Copy the following code into test cases to use the embedded proxy for 2-way SSL authentication
+
 import org.openqa.selenium.edge.EdgeOptions as EdgeOptions
 import org.openqa.selenium.edge.EdgeDriver as EdgeDriver
 import org.openqa.selenium.remote.CapabilityType as CapabilityType
@@ -27,7 +29,8 @@ Proxy seleniumProxy = GlobalVariable.proxy
 
 EdgeOptions options = new EdgeOptions()
 
-options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true)
+// Uncomment the following line to have the browser accept self-signed certificates
+// options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true)
 
 options.setProxy(seleniumProxy)
 
@@ -38,6 +41,8 @@ System.setProperty('webdriver.edge.driver', edgeChromiumDriverPath)
 driver = new EdgeDriver(options)
 
 DriverFactory.changeWebDriver(driver)
+
+// End of proxy preamble. Standard test script code begins here.
 
 WebUI.navigateToUrl('https://local.foobar3000.com:8443/server-app/data')
 

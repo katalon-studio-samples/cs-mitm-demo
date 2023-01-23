@@ -30,6 +30,17 @@ import org.openqa.selenium.edge.EdgeOptions;
 
 import com.katalon.ext.proxy.selenium.SeleniumProxy;
 
+import com.kms.katalon.util.CryptoUtil;
+import com.kms.katalon.util.CryptoUtil.CrytoInfo;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+ 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
+
 /**
  * Some methods below are samples for using SetUp/TearDown in a test suite.
  */
@@ -40,15 +51,20 @@ import com.katalon.ext.proxy.selenium.SeleniumProxy;
 @SetUp(skipped = false) // Please change skipped to be false to activate this method.
 def setUp() {
 	// Put your code here.
-	String client_cert = "/Users/coty/Code/katalon/third-party/selenium-extension-mitm/src/test/resources/certificates/client-app.p12";
-	String client_pass_cert = "/Users/coty/Code/katalon/third-party/selenium-extension-mitm/src/test/resources/certificates/client-app.p12.pwd";
+	String client_cert = GlobalVariable.client_cert_path;
+	String client_cert_password_plain = GlobalVariable.client_cert_password_plain;
 	
-	String root_cert = "/Users/coty/Code/katalon/third-party/selenium-extension-mitm/src/main/resources/rootMitmCA.p12";
-	String root_pass_cert = "/Users/coty/Code/katalon/third-party/selenium-extension-mitm/src/main/resources/rootMitmCA.p12.pwd";
+	if (StringUtils.isBlank(client_cert_password_plain)) {
+		String client_cert_password_encrypted = GlobalVariable.client_cert_password_encrypted;
+		CrytoInfo cryptoInfo = CryptoUtil.getDefault(client_cert_password_encrypted);
+		try {
+			client_cert_password_plain = CryptoUtil.decode(cryptoInfo);
+		} catch (Exception e) {
+			println("Exception decoding ${client_cert_password_encrypted}");
+		}
+	}
 	
-	SeleniumProxy seleniumProxy = null;
-	seleniumProxy = new SeleniumProxy(root_cert, root_pass_cert, client_cert, client_pass_cert);
-
+	SeleniumProxy seleniumProxy = new SeleniumProxy(client_cert, client_cert_password_plain);
 	seleniumProxy.start();
 	GlobalVariable.proxy = seleniumProxy;
 }
@@ -59,6 +75,8 @@ def setUp() {
 @TearDown(skipped = true) // Please change skipped to be false to activate this method.
 def tearDown() {
 	// Put your code here.
+	SeleniumProxy seleniumProxy = GlobalVariable.proxy
+	seleniumProxy.stop()
 }
 
 /**

@@ -5,8 +5,23 @@
    <tag></tag>
    <defaultProfile>true</defaultProfile>
    <GlobalVariableEntity>
-      <description></description>
+      <description>Global variable to hold reference to proxy</description>
       <initValue>null</initValue>
       <name>proxy</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Path to client certificate in PKCS12 format</description>
+      <initValue>'/Users/coty/Code/katalon/third-party/selenium-extension-mitm/src/test/resources/certificates/client-app.p12'</initValue>
+      <name>client_cert_path</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Encrypted client cert password</description>
+      <initValue>'ZHR267GGdy+1z6UcYZdGBg=='</initValue>
+      <name>client_cert_password_encrypted</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>FOR DEBUGGING ONLY: Plaintext of client cert password</description>
+      <initValue>''</initValue>
+      <name>client_cert_password_plain</name>
    </GlobalVariableEntity>
 </GlobalVariableEntities>
