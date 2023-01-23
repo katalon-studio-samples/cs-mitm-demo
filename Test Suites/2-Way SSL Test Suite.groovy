@@ -28,7 +28,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
-import com.pb.ext.proxy.selenium.SeleniumProxy;
+import com.katalon.ext.proxy.selenium.SeleniumProxy;
 
 /**
  * Some methods below are samples for using SetUp/TearDown in a test suite.
